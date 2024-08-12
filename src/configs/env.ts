@@ -15,4 +15,7 @@ export default {
 
   // secrets
   jwtTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+
+  //swagger
+  swaggerDev: process.env.DEV_SWAGGER_URI,
 };

@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import AppError from "./utils/appError";
 import v1Route from "./routes/index";
+import setupSwagger from "./configs/swagger";
 
 const app = express();
 
+setupSwagger(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(express.static("Static"));
