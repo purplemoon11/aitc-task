@@ -1,10 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
-import bcrypt from "bcryptjs";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Event } from "./events.entity";
 
 @Entity({ name: "User" })
 export class User {
   @PrimaryGeneratedColumn({ name: "UserId", type: "bigint" })
   userId: number;
+
+  @Column({ name: "Name", type: "varchar", length: 200 })
+  name: string;
 
   @Column({ name: "UserName", type: "varchar", length: 30, nullable: false })
   userName: string;
@@ -22,4 +25,7 @@ export class User {
     nullable: false,
   })
   password: string;
+
+  @OneToMany(() => Event, (events) => events.user)
+  events: Event;
 }

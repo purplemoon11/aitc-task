@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import AppError from "./utils/appError";
+import v1Route from "./routes/index";
 
 const app = express();
 
@@ -8,6 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(express.static("Static"));
 
 //Routes
+app.use("/api/v1", v1Route);
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(404, `Route ${req.originalUrl} not found`));
