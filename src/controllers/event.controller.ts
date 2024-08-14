@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { createEvent, getEvents } from "../services/event.services";
+import {
+  addCommentToEvent,
+  createEvent,
+  getEventDetailsById,
+  getEvents,
+  likeEventService,
+} from "../services/event.services";
 import { IRequestWithUser } from "../utils/type";
 import { successCallback } from "../utils/successResponse";
 
@@ -55,5 +61,53 @@ export const listEvents = async (req: Request, res: Response) => {
         message: error.message,
       });
     }
+  }
+};
+
+export const getEventDetails = async (req: Request, res: Response) => {
+  const eventId = Number(req.params.id);
+  try {
+    const event = await getEventDetailsById(eventId);
+    return res.json(event);
+  } catch (error: any) {
+    if (error.message === "Event not found") {
+      return res.status(404).json({ message: error.message });
+    }
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const likeEventHandler = async (
+  req: IRequestWithUser<any, any, any, any>,
+  res: Response
+) => {
+  try {
+    const eventId = parseInt(req.params.eventId, 10);
+    const userId = Number(req.user?.userId);
+
+    if (isNaN(eventId)) {
+      return res.status(400).json({ message: "Invalid event ID" });
+    }
+
+    const likes = await likeEventService(eventId, userId);
+    return res.status(200).json({ message: "Event liked", likes });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const addComment = async (
+  req: IRequestWithUser<any, any, any, any>,
+  res: Response
+) => {
+  try {
+    const { eventId, content } = req.body;
+    const userId = Number(req.user?.userId);
+
+    const comment = await addCommentToEvent(eventId, content, userId);
+
+    res.status(201).json(comment);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 };

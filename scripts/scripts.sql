@@ -1,3 +1,6 @@
+-- npx ts-node -O '{"module":"commonjs"}' node_modules/typeorm/cli.js -d src/configs/database.ts migration:generate scripts/migrations/LikeCommentOnEventMigrations
+-- npx ts-node -O '{"module":"commonjs"}' node_modules/typeorm/cli.js -d src/configs/database.ts migration:run
+
 -- Table Creation Query
 CREATE TABLE "User" (
     "UserId" BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

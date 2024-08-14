@@ -59,6 +59,7 @@ const router = Router();
  *       409:
  *         description: Conflict, user already exists
  */
+
 router.post("/register", registerHandler);
 
 /**
@@ -117,6 +118,7 @@ router.post("/register", registerHandler);
  *       401:
  *         description: Unauthorized, invalid email or password
  */
+
 router.post("/login", loginHandler);
 
 export default router;

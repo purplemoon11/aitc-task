@@ -3,9 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./user.entity";
+import { Comment } from "./comment.entity";
+import { UserLikes } from "./like.entity";
 
 @Entity("Event")
 export class Event {
@@ -33,7 +35,15 @@ export class Event {
   @Column({ name: "Category", type: "varchar", length: 50 })
   category: string;
 
+  @Column({ name: "Likes", type: "integer", default: 0 })
+  likes: number;
+
   @ManyToOne(() => User, (user) => user.events)
-  @JoinColumn({ name: "UserId" })
   user: User;
+
+  @OneToMany(() => Comment, (comment) => comment.event)
+  comment: Comment[];
+
+  @OneToMany(() => UserLikes, (userlikes) => userlikes.event)
+  userlikes: UserLikes[];
 }

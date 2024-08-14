@@ -9,9 +9,11 @@ export const AppDataSource = new DataSource({
   password: env.dbPassword ? env.dbPassword : "",
   database: env.dbName,
   entities: [`src/**/entities/*.entity{.ts,.js}`],
+  migrations: [`scripts/migrations/*.ts`],
   logging: false,
   //@ts-ignore
   cli: {
     entitiesDir: "src/apps/**/*.entity{.ts,.js}",
+    migrationsDir: "scripts/migrations",
   },
 });
