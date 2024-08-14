@@ -7,9 +7,8 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "User & Cards Details API",
-      description:
-        "This API is for users and cards to perform CRUD operations and more.",
+      title: "Social Media Platform for Events",
+      description: "This API is for Social Media Platform for Events.",
       version: "1.0.0",
     },
     servers: [
