@@ -15,22 +15,34 @@ export const createEventHandler = async (
 ) => {
   try {
     const userId = Number(req.user?.userId);
-    const event = await createEvent(req.body, userId);
+    if (!userId) {
+      return res.status(401).json({
+        status: "fail",
+        message: "User not authenticated",
+      });
+    }
+
+    // Handle file upload
+    const imageUrl = req.file ? req.file.filename : null;
+
+    // Merge imageUrl into event data
+    const eventData = { ...req.body, image: imageUrl };
+
+    // Create event
+    const event = await createEvent(eventData, userId);
 
     successCallback(
       res,
       "success",
       "EventCreation",
-      "Event created successfully !!!",
+      "Event created successfully!",
       event
     );
   } catch (error: any) {
-    if (error.message === "Failed to create event") {
-      return res.status(401).json({
-        status: "fail",
-        message: error.message,
-      });
-    }
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
   }
 };
 

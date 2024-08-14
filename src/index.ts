@@ -8,7 +8,7 @@ const app = express();
 setupSwagger(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(express.static("Static"));
+app.use(express.static("uploads"));
 
 //Routes
 app.use("/api/v1", v1Route);

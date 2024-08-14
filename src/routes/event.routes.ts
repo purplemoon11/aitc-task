@@ -7,6 +7,7 @@ import {
   listEvents,
 } from "../controllers/event.controller";
 import { isAuth } from "../middlewares/auth.middleware";
+import { upload } from "../middlewares/upload";
 
 const router = Router();
 
@@ -92,7 +93,12 @@ const router = Router();
  *         description: User not found
  */
 
-router.post("/createEvents", isAuth, createEventHandler);
+router.post(
+  "/createEvents",
+  isAuth,
+  upload.single("image"),
+  createEventHandler
+);
 
 /**
  * @openapi

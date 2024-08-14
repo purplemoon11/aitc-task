@@ -12,7 +12,7 @@ const userLikesRepository = AppDataSource.getRepository(UserLikes);
 
 export const createEvent = async (data: IEvent, userId: number) => {
   try {
-    const user = await userRepository.findOne({ where: { userId: userId } });
+    const user = await userRepository.findOne({ where: { userId } });
     if (!user) {
       throw new Error("User not found");
     }
@@ -25,7 +25,7 @@ export const createEvent = async (data: IEvent, userId: number) => {
     await eventRepository.save(event);
     return event;
   } catch (error: any) {
-    throw new Error(error);
+    throw new Error(`Failed to create event: ${error.message}`);
   }
 };
 

@@ -14,7 +14,7 @@ export default {
   dbName: process.env.DB_NAME,
 
   // secrets
-  jwtTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+  jwtTokenSecret: process.env.JWT_TOKEN_SECRET,
 
   //swagger
   swaggerDev: process.env.DEV_SWAGGER_URI,
