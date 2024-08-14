@@ -14,10 +14,17 @@ Social Media Platform for Events Documentation
   JWT_SECRET: Secret key for JWT authentication
   DEV_SWAGGER: Provide url to load swagger (localhost:5000/docs)
 
-- Project Setup & Launch
+- Database Setup
+  Create a database
+  All the table query is provided at Script.sql file
 
+- Project Setup & Launch
+  
   npm install: To initialize the project  
   npm run dev: To run the server
+
+- Migration
+  Migration example process is provided on the top of Script.sql file
 
 - Features
 
