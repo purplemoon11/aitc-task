@@ -10,6 +10,12 @@ const eventRepository = AppDataSource.getRepository(Event);
 const commentRepository = AppDataSource.getRepository(Comment);
 const userLikesRepository = AppDataSource.getRepository(UserLikes);
 
+/**
+ * Creates the event
+ * @param data - Takes event data to create user
+ * @param userId - Takes userId to create event
+ * @returns - Promise of event
+ */
 export const createEvent = async (data: IEvent, userId: number) => {
   try {
     const user = await userRepository.findOne({ where: { userId } });
@@ -29,6 +35,12 @@ export const createEvent = async (data: IEvent, userId: number) => {
   }
 };
 
+/**
+ * Filters data to get all events
+ *
+ * @param filters - Takes data to be filtered
+ * @returns - Promises of event
+ */
 export const getEvents = async (filters: FilterOptions) => {
   try {
     const query = eventRepository.createQueryBuilder("event");
@@ -57,6 +69,12 @@ export const getEvents = async (filters: FilterOptions) => {
   }
 };
 
+/**
+ * This function return the data according to it's id
+ *
+ * @param eventId - Takes eventId to list the view data
+ * @returns - Promise of event
+ */
 export const getEventDetailsById = async (eventId: number) => {
   try {
     const event = await eventRepository.findOne({
@@ -74,6 +92,13 @@ export const getEventDetailsById = async (eventId: number) => {
   }
 };
 
+/**
+ * This function is to count and store the amount of likes from user for the event
+ *
+ * @param eventId - Takes eventId to find the event to like
+ * @param userId - Takes userId to count the like
+ * @returns - Promise of number
+ */
 export const likeEventService = async (eventId: number, userId: number) => {
   try {
     const event = await eventRepository.findOne({ where: { eventId } });
@@ -110,6 +135,14 @@ export const likeEventService = async (eventId: number, userId: number) => {
   }
 };
 
+/**
+ * This function takes argument to add comment
+ *
+ * @param eventId - EventId to post comment
+ * @param content - Content to be added to post comment
+ * @param userId - Takes userId to post commnet on the event
+ * @returns - Promise of comment
+ */
 export const addCommentToEvent = async (
   eventId: number,
   content: string,

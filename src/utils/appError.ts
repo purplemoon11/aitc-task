@@ -1,3 +1,6 @@
+/**
+ * This function is a globale error handler to capture error
+ */
 export default class AppError extends Error {
   status: string;
   isOperational: boolean;

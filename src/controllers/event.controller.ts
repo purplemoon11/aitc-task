@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   addCommentToEvent,
   createEvent,
@@ -8,12 +8,22 @@ import {
 } from "../services/event.services";
 import { IRequestWithUser } from "../utils/type";
 import { successCallback } from "../utils/successResponse";
+import { createEventSchema } from "../validators/event.validator";
+import { addCommentSchema } from "../validators/comment.validator";
 
 export const createEventHandler = async (
   req: IRequestWithUser<any, any, any, any>,
   res: Response
 ) => {
   try {
+    const { error } = createEventSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        status: "fail",
+        message: error.details[0].message,
+      });
+    }
+
     const userId = Number(req.user?.userId);
     if (!userId) {
       return res.status(401).json({
@@ -21,14 +31,10 @@ export const createEventHandler = async (
         message: "User not authenticated",
       });
     }
-
-    // Handle file upload
     const imageUrl = req.file ? req.file.filename : null;
 
-    // Merge imageUrl into event data
     const eventData = { ...req.body, image: imageUrl };
 
-    // Create event
     const event = await createEvent(eventData, userId);
 
     successCallback(
@@ -113,13 +119,37 @@ export const addComment = async (
   res: Response
 ) => {
   try {
+    const { error } = addCommentSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        status: "fail",
+        message: error.details[0].message,
+      });
+    }
+
     const { eventId, content } = req.body;
     const userId = Number(req.user?.userId);
-
     const comment = await addCommentToEvent(eventId, content, userId);
 
-    res.status(201).json(comment);
+    res.status(201).json({
+      status: "success",
+      message: "Comment added successfully",
+      comment,
+    });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    if (
+      error.message.includes("Event not found") ||
+      error.message.includes("User not found")
+    ) {
+      return res.status(404).json({
+        status: "fail",
+        message: error.message,
+      });
+    }
+
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
   }
 };

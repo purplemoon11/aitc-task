@@ -7,6 +7,12 @@ import jwt from "jsonwebtoken";
 
 const userRepository = AppDataSource.getRepository(User);
 
+/**
+ * This function resgiters and creates user
+ *
+ * @param registrationData - Sets data to register user
+ * @returns Prmoise of user
+ */
 export const registerUser = async (registrationData: IUser) => {
   try {
     const { name, email, phone, userName, password } = registrationData;
@@ -34,6 +40,12 @@ export const registerUser = async (registrationData: IUser) => {
   }
 };
 
+/**
+ * This function login's the user
+ *
+ * @param loginData - Takes email and password to login
+ * @returns - Promise of user
+ */
 export const loginUser = async (loginData: ILoginData) => {
   const { email, password } = loginData;
   if (!email || !password) {
@@ -68,6 +80,12 @@ export const loginUser = async (loginData: ILoginData) => {
   }
 };
 
+/**
+ * This function finds user according to it's id
+ *
+ * @param userId - Takes id of the user
+ * @returns - Promise of user or null
+ */
 export const findByIdUser = async (userId: number) => {
   try {
     const user = await userRepository.findOne({ where: { userId: userId } });

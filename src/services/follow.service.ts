@@ -8,6 +8,12 @@ const userRepository = AppDataSource.getRepository(User);
 const followRepository = AppDataSource.getRepository(Follow);
 const eventRepository = AppDataSource.getRepository(Event);
 
+/**
+ * This function is to follow the user
+ *
+ * @param followerId - Takes userId to know the user
+ * @param followedId - Takes userId to know the user
+ */
 export const followUser = async (followerId: number, followedId: number) => {
   const follower = await userRepository.findOne({
     where: { userId: followerId },
@@ -38,6 +44,12 @@ export const followUser = async (followerId: number, followedId: number) => {
   await followRepository.save(follow);
 };
 
+/**
+ * Function to view the list of events followed by the user
+ *
+ * @param userId - Takes userId of the user
+ * @returns - Promise of user
+ */
 export const getEventsFromFollowedUsers = async (userId: number) => {
   const user = await userRepository.findOne({
     where: { userId: userId },
