@@ -106,8 +106,8 @@ export const likeEventHandler = async (
     if (isNaN(eventId)) {
       return res.status(400).json({ message: "Invalid event ID" });
     }
-
     const likes = await likeEventService(eventId, userId);
+    console.log(likes, "data");
     return res.status(200).json({ message: "Event liked", likes });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
@@ -127,7 +127,12 @@ export const addComment = async (
       });
     }
 
-    const { eventId, content } = req.body;
+    const eventId = parseInt(req.params?.eventId, 10);
+    if (isNaN(eventId)) {
+      return res.status(400).json({ message: "Invalid event ID" });
+    }
+
+    const { content } = req.body;
     const userId = Number(req.user?.userId);
 
     const comment = await addCommentToEvent(eventId, content, userId);

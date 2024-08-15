@@ -107,28 +107,28 @@ export const likeEventService = async (eventId: number, userId: number) => {
       throw new Error("Event not found");
     }
 
+    const user = await userRepository.findOne({ where: { userId } });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
     const userLike = await userLikesRepository.findOne({
-      where: { eventId, userId },
+      where: {
+        event: { eventId },
+        user: { userId },
+      },
     });
 
     if (userLike) {
       throw new Error("You have already liked this event");
     }
 
-    const user = await userRepository.findOne({ where: { userId } });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
     const newUserLike = new UserLikes();
     newUserLike.event = event;
     newUserLike.user = user;
-
     await userLikesRepository.save(newUserLike);
     event.likes += 1;
     await eventRepository.save(event);
-
     return event.likes;
   } catch (error: any) {
     throw new Error(error.message);
@@ -166,6 +166,6 @@ export const addCommentToEvent = async (
 
     return await commentRepository.save(comment);
   } catch (error: any) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };

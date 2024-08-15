@@ -323,7 +323,7 @@ router.get("/events/:id", isAuth, getEventDetails);
  *         description: Server error
  */
 
-router.post("/events/:id/comments", isAuth, addComment);
+router.post("/events/:eventId/comments", isAuth, addComment);
 
 /**
  * @openapi
@@ -385,6 +385,6 @@ router.post("/events/:id/comments", isAuth, addComment);
  *                   example: "Server error message"
  */
 
-router.post("/events/:id/like", isAuth, likeEventHandler);
+router.post("/events/:eventId/like", isAuth, likeEventHandler);
 
 export default router;

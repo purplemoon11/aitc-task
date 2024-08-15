@@ -1,30 +1,15 @@
-import {
-  Entity,
-  ManyToOne,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Event } from "./events.entity";
 
-@Entity("UserLikes")
+@Entity()
 export class UserLikes {
-  @PrimaryColumn({ name: "UserId", type: "bigint" })
-  userId: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @PrimaryColumn({ name: "EventId", type: "bigint" })
-  eventId: number;
-
-  @ManyToOne(() => User, (user) => user.userLikes, { onDelete: "CASCADE" })
-  user: User;
-
-  @ManyToOne(() => Event, (event) => event.userlikes, { onDelete: "CASCADE" })
+  @ManyToOne(() => Event, (event) => event.userlikes)
   event: Event;
 
-  @CreateDateColumn({ name: "CreatedAt" })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: "UpdatedAt" })
-  updatedAt: Date;
+  @ManyToOne(() => User, (user) => user.userLikes)
+  user: User;
 }
