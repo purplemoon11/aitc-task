@@ -3,6 +3,7 @@ import { Event } from "./events.entity";
 import { Comment } from "./comment.entity";
 import { UserLikes } from "./like.entity";
 import { Follow } from "./follow.entity";
+import { Notification } from "./notification.entity";
 
 @Entity({ name: "User" })
 export class User {
@@ -43,4 +44,7 @@ export class User {
 
   @OneToMany(() => Follow, (follow) => follow.follower)
   followers: Follow[];
+
+  @OneToMany(() => Notification, (notification) => notification.user)
+  notification: Notification[];
 }

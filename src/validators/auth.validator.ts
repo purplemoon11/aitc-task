@@ -6,7 +6,7 @@ import Joi from "joi";
 export const registrationSchema = Joi.object({
   name: Joi.string().max(200).required(),
   email: Joi.string().email().max(100).required(),
-  phone: Joi.string().length(10).required(),
+  phone: Joi.number().integer().required(),
   userName: Joi.string().max(30).required(),
   password: Joi.string().min(6).required(),
 });

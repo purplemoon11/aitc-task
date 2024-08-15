@@ -65,11 +65,8 @@ export const loginUser = async (loginData: ILoginData) => {
       throw new Error("The email or password you entered is incorrect");
     } else {
       const payload = { id: user.userId };
-
       const secretKey = env.jwtTokenSecret || "";
       const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
-
-      console.log("Generated Token:", token);
 
       const { password, ...userData } = user;
 

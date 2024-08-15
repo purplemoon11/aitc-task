@@ -21,11 +21,9 @@ export const isAuth = async (
     if (!accessToken) {
       return next(new AppError(401, "Unauthorized access! Token is missing."));
     }
-
     const payload = verify(accessToken, env.jwtTokenSecret as string, {
       ignoreExpiration: false,
     });
-
     if (!payload) {
       return next(new AppError(401, "Invalid token!"));
     }

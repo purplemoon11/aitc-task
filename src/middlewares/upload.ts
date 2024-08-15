@@ -1,13 +1,11 @@
 import multer from "multer";
-import { v4 as uuid } from "uuid";
 
 const multerStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./src/uploads/");
-  },
+  destination: "./uploads",
   filename: function (req, file, cb) {
-    const ext = file.mimetype.split("/")[1];
-    cb(null, `file-${uuid()}-${Date.now()}.${ext}`);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const fileExtension = file.originalname.split(".").pop();
+    cb(null, file.fieldname + "-" + uniqueSuffix + "." + fileExtension);
   },
 });
 
