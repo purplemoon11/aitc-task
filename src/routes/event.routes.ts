@@ -257,7 +257,7 @@ router.get("/getEvents", isAuth, listEvents);
  *         description: Server error
  */
 
-router.get("/events/:id", getEventDetails);
+router.get("/events/:id", isAuth, getEventDetails);
 
 /**
  * @openapi
@@ -323,7 +323,7 @@ router.get("/events/:id", getEventDetails);
  *         description: Server error
  */
 
-router.post("/events/:id/comments", addComment);
+router.post("/events/:id/comments", isAuth, addComment);
 
 /**
  * @openapi
@@ -385,6 +385,6 @@ router.post("/events/:id/comments", addComment);
  *                   example: "Server error message"
  */
 
-router.post("/events/:id/like", likeEventHandler);
+router.post("/events/:id/like", isAuth, likeEventHandler);
 
 export default router;

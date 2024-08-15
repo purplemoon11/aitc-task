@@ -129,6 +129,7 @@ export const addComment = async (
 
     const { eventId, content } = req.body;
     const userId = Number(req.user?.userId);
+
     const comment = await addCommentToEvent(eventId, content, userId);
 
     res.status(201).json({
