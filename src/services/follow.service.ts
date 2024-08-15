@@ -58,24 +58,45 @@ export const followUser = async (followerId: number, followedId: number) => {
 export const getEventsFromFollowedUsers = async (userId: number) => {
   try {
     const user = await userRepository.findOne({
-      where: { userId: userId },
-      relations: ["following"],
+      where: { userId },
+      relations: ["following", "following.following"],
     });
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    const followedUserIds = user.following.map(
-      (follow) => follow.following.userId
-    );
+    const followedUserIds = user.following
+      .map((follow) => follow.following?.userId)
+      .filter((id) => id !== undefined);
+
+    const followingUserIds = user.following
+      .map(() => userId)
+      .filter((id) => id !== undefined);
+
+    if (followedUserIds.length === 0 && followingUserIds.length === 0) {
+      console.log("No followed or following users found.");
+      return { followedUsers: [], followingUsers: [], events: [] };
+    }
 
     const events = await eventRepository.find({
       where: { user: In(followedUserIds) },
       relations: ["user"],
     });
 
-    return events;
+    const followedUsers = await userRepository.find({
+      where: { userId: In(followedUserIds) },
+    });
+
+    const followingUsers = await userRepository.find({
+      where: { userId: In(followingUserIds) },
+    });
+
+    return {
+      followedUsers,
+      followingUsers,
+      events,
+    };
   } catch (error: any) {
     throw new AppError(400, error.message);
   }

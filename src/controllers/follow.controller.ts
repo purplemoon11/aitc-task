@@ -10,7 +10,7 @@ export const followUserHandler = async (
   res: Response
 ) => {
   const { followedId } = req.body;
-  const followerId = Number(req.user?.userId); // Assuming you have user info in req.user from authentication middleware
+  const followerId = Number(req.user?.userId);
 
   try {
     await followUser(followerId, followedId);
@@ -27,8 +27,11 @@ export const getFollowedUserEventsHandler = async (
   const userId = Number(req.user?.userId);
 
   try {
-    const events = await getEventsFromFollowedUsers(userId);
-    res.status(200).json(events);
+    const { followedUsers, events } = await getEventsFromFollowedUsers(userId);
+    res.status(200).json({
+      followedUsers,
+      events,
+    });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
